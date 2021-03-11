@@ -184,6 +184,7 @@ def randomSnack(rows, item):
     return (x, y)
 
 
+# create a tkinter window
 def message_box(subject, content):
     root = tk.Tk()
     root.attributes("-topmost", True)
@@ -194,27 +195,35 @@ def message_box(subject, content):
     except:
         pass
 
-
+# main function
 def main():
     global width, rows, s, snack
     width = 500
     rows = 20
+    # display the window
     win = pygame.display.set_mode((width, width))
+    # color and position of the snake
     s = snake((255, 200, 255), (10, 10))
+    # color and position of the snack
     snack = cube(randomSnack(rows, s), color=(0, 255, 0))
     flag = True
 
+    # Clock module to track an amount of time
     clock = pygame.time.Clock()
 
     while flag:
         pygame.time.delay(50)
+        # frame rate of the game to 10
         clock.tick(10)
+        # move the particular body of the snake
         s.move()
+        # if the snake eats snack, add a cube at back
         if s.body[0].pos == snack.pos:
             s.addCube()
             snack = cube(randomSnack(rows, s), color=(0, 255, 0))
 
         for x in range(len(s.body)):
+            # if the snake hits its own body
             if s.body[x].pos in list(map(lambda z: z.pos, s.body[x + 1:])):
                 print('Score: ', len(s.body))
                 message_box('You Lost!', 'Play again...')
